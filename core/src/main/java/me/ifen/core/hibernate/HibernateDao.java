@@ -1,5 +1,6 @@
 package me.ifen.core.hibernate;
 
+import me.ifen.core.Constants;
 import me.ifen.core.util.ReflectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
@@ -532,20 +533,21 @@ public class HibernateDao<T, PK extends Serializable> extends SimpleHibernateDao
      * @return Query
      */
     protected Query buildQueryByPropertyFilter(final Page<T> page, String hql, List<Object> values, final List<PropertyFilter> filters) {
-        String qs = buildQueryStringByPropertyFilter(page,hql,values,filters);
+        String qs = buildQueryStringByPropertyFilter(page, hql, values, filters);
         Query q = createQuery(qs, values);
         return q;
     }
 
     /**
      * 按属性条件列表创建查询语句
+     *
      * @param page
      * @param hql
      * @param values
      * @param filters
      * @return
      */
-    public String buildQueryStringByPropertyFilter(final Page<T> page, String hql, List<Object> values, final List<PropertyFilter> filters){
+    public String buildQueryStringByPropertyFilter(final Page<T> page, String hql, List<Object> values, final List<PropertyFilter> filters) {
         Assert.hasText(hql, "propertyName不能为空");
         StringBuilder sb = new StringBuilder(hql);
 
@@ -667,6 +669,26 @@ public class HibernateDao<T, PK extends Serializable> extends SimpleHibernateDao
             for (int i = 0; i < values.size(); i++) {
                 query.setParameter(i, values.get(i));
             }
+        }
+    }
+
+    /**
+     * 逻辑删除（将isDelete字段置为1）
+     */
+    public void logicDelete(PK id) {
+        T entity = get(id);
+        if (null != entity) {
+            ReflectionUtils.invokeSetterMethod(entity, "isDelete", Constants.IS_DELETE_DELETE);
+        }
+    }
+
+    /**
+     * 已删除数据恢复（将isDelete字段置为0）
+     */
+    public void recoverLogicDelete(PK id) {
+        T entity = get(id);
+        if (null != entity) {
+            ReflectionUtils.invokeSetterMethod(entity, "isDelete", Constants.IS_DELETE_NOT_DELETE);
         }
     }
 
