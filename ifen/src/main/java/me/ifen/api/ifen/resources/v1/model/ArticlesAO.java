@@ -17,7 +17,7 @@ public class ArticlesAO {
     /**
      * 点赞个数
      */
-    private Integer supports;
+    private long supports;
 
     public Long getId() {
         return id;
@@ -67,11 +67,12 @@ public class ArticlesAO {
         this.time = time;
     }
 
-    public Integer getSupports() {
+    public long getSupports() {
         return supports;
     }
 
-    public void setSupports(Integer supports) {
+    public void setSupports(long supports) {
         this.supports = supports;
     }
+
 }

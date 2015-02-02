@@ -5,6 +5,8 @@ import me.ifen.api.ifen.dao.CommentDao;
 import me.ifen.api.ifen.dao.orm.Comment;
 import me.ifen.api.ifen.resources.v1.model.CommentAO;
 import me.ifen.api.ifen.services.CommentService;
+import me.ifen.api.ifen.services.ServiceFactory;
+import me.ifen.core.Constants;
 import me.ifen.core.hibernate.Page;
 import me.ifen.core.util.ResultUtils;
 import org.slf4j.Logger;
@@ -26,6 +28,8 @@ public class CommentServiceImpl implements CommentService {
 
     @Autowired
     private CommentDao commentDao;
+    @Autowired
+    private ServiceFactory serviceFactory;
 
     @Override
     public Page<CommentAO> list(Page page, Long articleId, boolean includeDelete) {
@@ -40,7 +44,7 @@ public class CommentServiceImpl implements CommentService {
             c.setCreatorId(comment.getCreatorId());
             c.setNickname(comment.getCreatorNickname());
             c.setTime(comment.getCreateTime().getTime());
-            c.setSupports(0);
+            c.setSupports(serviceFactory.getSupportService(Constants.SUPPORT_OBJECT_TYPE_COMMENT).count(c.getId()));
             commentsList.add(c);
         }
         comments.setResult(commentsList);

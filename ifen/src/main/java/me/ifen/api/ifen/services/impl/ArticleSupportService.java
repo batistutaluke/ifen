@@ -1,6 +1,6 @@
 package me.ifen.api.ifen.services.impl;
 
-import me.ifen.api.ifen.services.SupportService;
+import me.ifen.core.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -11,19 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service("articleSupportService")
 @Transactional
-public class ArticleSupportService implements SupportService {
+public class ArticleSupportService extends BaseSupportServiceImpl {
     private static Logger logger = LoggerFactory.getLogger(ArticleSupportService.class);
 
     @Override
-    public void support(Long id, Long creatorId) {
-    }
-
-    @Override
-    public void delete(Long id, Long creatorId) {
-    }
-
-    @Override
-    public Integer count(Long id) {
-        return 0;
+    protected Integer getType() {
+        return Constants.SUPPORT_OBJECT_TYPE_ARTICLE;
     }
 }

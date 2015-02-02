@@ -26,7 +26,7 @@ public class CommentAO {
     /**
      * 点赞个数
      */
-    private Integer supports;
+    private long supports;
     /**
      * 评论时间
      */
@@ -64,14 +64,6 @@ public class CommentAO {
         this.nickname = nickname;
     }
 
-    public Integer getSupports() {
-        return supports;
-    }
-
-    public void setSupports(Integer supports) {
-        this.supports = supports;
-    }
-
     public Long getTime() {
         return time;
     }
@@ -86,5 +78,13 @@ public class CommentAO {
 
     public void setArticleId(Long articleId) {
         this.articleId = articleId;
+    }
+
+    public long getSupports() {
+        return supports;
+    }
+
+    public void setSupports(long supports) {
+        this.supports = supports;
     }
 }

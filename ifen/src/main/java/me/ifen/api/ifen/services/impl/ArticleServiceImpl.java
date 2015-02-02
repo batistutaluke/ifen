@@ -7,6 +7,8 @@ import me.ifen.api.ifen.exception.ArticleNotFoundException;
 import me.ifen.api.ifen.resources.v1.model.ArticleAO;
 import me.ifen.api.ifen.resources.v1.model.ArticlesAO;
 import me.ifen.api.ifen.services.ArticleService;
+import me.ifen.api.ifen.services.ServiceFactory;
+import me.ifen.core.Constants;
 import me.ifen.core.hibernate.Page;
 import me.ifen.core.util.ResultUtils;
 import org.apache.commons.lang.StringUtils;
@@ -30,6 +32,8 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Autowired
     private ArticleDao articleDao;
+    @Autowired
+    private ServiceFactory serviceFactory;
 
 
     @Override
@@ -45,7 +49,7 @@ public class ArticleServiceImpl implements ArticleService {
             a.setAuthor(article.getAuthor());
             a.setSummary(article.getSummary());
             a.setTime(article.getCreateTime().getTime());
-            a.setSupports(0);
+            a.setSupports(serviceFactory.getSupportService(Constants.SUPPORT_OBJECT_TYPE_ARTICLE).count(article.getId()));
             articlesList.add(a);
         }
         articles.setResult(articlesList);

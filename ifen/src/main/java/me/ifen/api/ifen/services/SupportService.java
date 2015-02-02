@@ -9,5 +9,5 @@ public interface SupportService {
 
     public void delete(Long id, Long creatorId);
 
-    public Integer count(Long id);
+    public long count(Long id);
 }

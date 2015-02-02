@@ -12,6 +12,18 @@ import javax.persistence.*;
 @Table(name = "ifen_support")
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Support extends BaseEntity {
+
+    public Support() {
+    }
+
+//    public Support(Long id, Long object_id, Long creator_id, Integer type, Integer isDelete) {
+//        this.id = id;
+//        this.object_id = object_id;
+//        this.creator_id = creator_id;
+//        this.type = type;
+//        this.isDelete = isDelete;
+//    }
+
     private Long id;
 
     /**
