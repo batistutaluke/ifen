@@ -14,19 +14,21 @@ import java.util.Map;
 @Component
 public class SupportDao extends HibernateDao<Support, Long> {
 
-    protected String queryHql = "from Support s where s.object_id = :object_id and s.creator_id = :creator_id";
-    protected String countHql = "from Support s where s.object_id = :object_id and s.isDelete = " + Constants.IS_DELETE_NOT_DELETE;
+    protected String queryHql = "from Support s where s.object_id = :object_id and s.creator_id = :creator_id and s.type = :type";
+    protected String countHql = "from Support s where s.object_id = :object_id and s.type = :type and s.isDelete = " + Constants.IS_DELETE_NOT_DELETE;
 
-    public Support findUniqueByObjectIdAndCreatorId(Long objectId, Long creatorId) {
+    public Support findUniqueByObjectIdAndCreatorId(Long objectId, Long creatorId, Integer type) {
         Map<String, Object> param = Maps.newHashMap();
         param.put("object_id", objectId);
         param.put("creator_id", creatorId);
+        param.put("type", type);
         return this.findUnique(queryHql, param);
     }
 
-    public long count(Long objectId) {
+    public long count(Long objectId, Integer type) {
         Map<String, Object> param = Maps.newHashMap();
         param.put("object_id", objectId);
+        param.put("type", type);
         return this.countHqlResult(countHql, param);
     }
 

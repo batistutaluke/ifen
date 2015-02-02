@@ -1,6 +1,5 @@
 package me.ifen.api.ifen.services.impl;
 
-import com.google.common.collect.Maps;
 import me.ifen.api.ifen.dao.SupportDao;
 import me.ifen.api.ifen.dao.orm.Support;
 import me.ifen.api.ifen.exception.SupportObjectNotExistsException;
@@ -11,8 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Map;
 
 /**
  * Created by zhangjingbo on 15/2/2.
@@ -28,7 +25,7 @@ public abstract class BaseSupportServiceImpl implements SupportService {
 
     @Override
     public void support(Long id, Long creatorId) {
-        Support support = supportDao.findUniqueByObjectIdAndCreatorId(id, creatorId);
+        Support support = supportDao.findUniqueByObjectIdAndCreatorId(id, creatorId, getType());
         if (null == support) {
             Support newSupport = new Support();
             newSupport.setType(getType());
@@ -43,7 +40,7 @@ public abstract class BaseSupportServiceImpl implements SupportService {
 
     @Override
     public void delete(Long id, Long creatorId) {
-        Support support = supportDao.findUniqueByObjectIdAndCreatorId(id, creatorId);
+        Support support = supportDao.findUniqueByObjectIdAndCreatorId(id, creatorId, getType());
         if (null == support) {
             throw new SupportObjectNotExistsException("您要删除的点赞对象不存在");
         } else {
@@ -55,7 +52,7 @@ public abstract class BaseSupportServiceImpl implements SupportService {
 
     @Override
     public long count(Long id) {
-        return supportDao.count(id);
+        return supportDao.count(id, getType());
     }
 
     abstract protected Integer getType();
